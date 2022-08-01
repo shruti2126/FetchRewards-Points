@@ -21,4 +21,4 @@ const PointsSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("addPoints", PointsSchema);
+module.exports = mongoose.model("points", PointsSchema);
