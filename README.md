@@ -3,7 +3,7 @@
 
 # About
 
-This web service is able to store new transactions from users of fetch rewards, deduct points from existing points in their account starting with the oldest transactions and also balance out the remaining points in the account.
+This web service is able to store new transactions from users of Fetch Rewards, deduct points from existing points in their account starting with the oldest transactions and also balance out the remaining points in the account.
 
 # Installation
 
