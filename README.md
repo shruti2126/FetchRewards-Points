@@ -3,7 +3,7 @@
 
 # About
 
-This web service is able to store mew transactions from users of fetch rewards, deduct points from existing points in their account starting with the oldest transactions and also balance out the remaining points in the account.
+This web service is able to store new transactions from users of fetch rewards, deduct points from existing points in their account starting with the oldest transactions and also balance out the remaining points in the account.
 
 # Installation
 
@@ -12,8 +12,8 @@ Steps:-
 1. Download VSCode or another IDE that can run JavaScript code.
 2. Download and Install NodeJS on your system (<https://nodejs.org/en/download/>).
 3. Create a folder and give it a name like "web-service".
-4. Navigate into that folder (Either manually or through terminal)
-5. Download files from this repository into the folder (If git is installed in this directory, clone this project, follow this link (<https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository>) for instructions on how to use git)
+4. Navigate into that folder (Either manually or through terminal).
+5. Download files from this repository into the folder (If git is installed in this directory, clone this project, follow this link (<https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository>) for instructions on how to use git).
 6. Open project directory in VScode or preferred IDE.
 7. Use terminal to navigate to project directory.
 8. Run 'npm install' to install all required dependencies; Ensure 'node_modules' appear inside directory.
@@ -50,4 +50,5 @@ Steps:-
 
 # Help
 
-Refer to comments in project for more clarity about endpoints, routes, schema/model and database connection. The connection URL (which contains username and password for mongodb atlas connection) is saved in .env file.
+Refer to comments in project for more clarity about endpoints, routes, schema/model and database connection.
+If you need help Building request using the Postman app interface, learn about it here --> <https://learning.postman.com/docs/sending-requests/requests/>
