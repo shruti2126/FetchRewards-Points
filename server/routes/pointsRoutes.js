@@ -8,7 +8,7 @@ const express = require("express");
 const router = express.Router();
 const pointsController = require("../controllers/pointsController");
 
-router.get("/api/spend", pointsController.spendPoints);
-router.post("/api/add", pointsController.addPoints);
-router.get("/api/balance", pointsController.balancePoints);
+router.get("/points/spend", pointsController.spendPoints);
+router.post("/points/add", pointsController.addPoints);
+router.get("/points/balance", pointsController.balancePoints);
 module.exports = router;
