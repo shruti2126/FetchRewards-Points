@@ -84,27 +84,28 @@ exports.spendPoints = async (req, res) => {
  */
 exports.addPoints = async (req, res) => {
   try {
-    var isJson = await isJsonObject(req.body);
-    if (!isJson) {
-      req.body.forEach(async (element) => {
-        const doc = await addPoints.create({
-          payer: element.payer,
-          points: element.points,
-          timestamp: element.timestamp,
-        });
-        doc.save();
-        console.log(doc);
-      });
-      res.json(req.body);
-    } else {
-      const doc = await addPoints.create({
-        payer: req.body.payer,
-        points: req.body.points,
-        timestamp: req.body.timestamp,
-      });
-      doc.save();
-      res.json(doc);
-    }
+    // var isJson = await isJsonObject(req.body);
+    // console.log(isJson);
+    // if (!isJson) {
+    //   req.body.forEach(async (element) => {
+    //     const doc = await addPoints.create({
+    //       payer: element.payer,
+    //       points: element.points,
+    //       timestamp: element.timestamp,
+    //     });
+    //     addPoints.doc.save();
+    //     console.log(doc);
+    //   });
+    //   res.json(req.body);
+    //} else {
+    const doc = await addPoints.create({
+      payer: req.body.payer,
+      points: req.body.points,
+      timestamp: req.body.timestamp,
+    });
+    doc.save();
+    res.json(doc);
+    //}
   } catch (error) {
     res.status(400).json({ message: error.message });
     console.log(error.message);
