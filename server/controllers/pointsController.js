@@ -1,8 +1,6 @@
 /** @format */
-const { json } = require("body-parser");
-require("mongoose");
-require("../models/pointsModel.js");
-require("../models/db");
+
+require("../db");
 
 const pointsModel = require("../models/pointsModel.js");
 

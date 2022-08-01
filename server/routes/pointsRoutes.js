@@ -1,7 +1,7 @@
 /** @format */
 
 /**
- * HTTP routes for adding, spending and balancing points
+ * HTTP routes for adding, spending and balancing points.
  */
 
 const express = require("express");
