@@ -1,5 +1,8 @@
 /** @format */
-
+/**
+ * This is the starting point of application sets up PORT listening for server
+ * and imports necessary libraries.
+ */
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");

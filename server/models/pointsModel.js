@@ -1,8 +1,10 @@
 /** @format */
-
+/**
+ * This is the model for the Points Schema.
+ */
 const mongoose = require("mongoose");
 
-const addPointsSchema = mongoose.Schema({
+const PointsSchema = mongoose.Schema({
   payer: {
     type: String,
     required: true,
@@ -19,4 +21,4 @@ const addPointsSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("addPoints", addPointsSchema);
+module.exports = mongoose.model("addPoints", PointsSchema);

@@ -1,5 +1,9 @@
 /** @format */
 
+/**
+ * This is where connection to mongodb atlas is set up.
+ */
+
 const mongoose = require("mongoose");
 mongoose.connect(process.env.MONGODB_URI, {
   useNewURLParser: true,

@@ -1,10 +1,10 @@
 /** @format */
 const { json } = require("body-parser");
 require("mongoose");
-require("../models/addPoints.js");
+require("../models/pointsModel.js");
 require("../models/db");
 
-const addPoints = require("../models/addPoints.js");
+const pointsModel = require("../models/pointsModel.js");
 
 /**
  * POST request to add points (i.e create docs for each transaction in database)
@@ -15,7 +15,7 @@ const addPoints = require("../models/addPoints.js");
  */
 exports.addPoints = async (req, res) => {
   try {
-    const doc = await addPoints.create({
+    const doc = await pointsModel.create({
       payer: req.body.payer,
       points: req.body.points,
       timestamp: req.body.timestamp,
@@ -39,7 +39,7 @@ exports.addPoints = async (req, res) => {
 exports.spendPoints = async (req, res) => {
   try {
     const pointsToSpend = req.body.points;
-    const docs = await addPoints.find({}).sort("timestamp");
+    const docs = await pointsModel.find({}).sort("timestamp");
     let pointsDeducted = await spend(pointsToSpend, docs);
     res.json(pointsDeducted);
   } catch (error) {
@@ -92,7 +92,7 @@ async function spend(pointsToSpend, docs) {
  * @param {_id} id id of the document
  */
 async function updateDoc(points, id) {
-  const doc = await addPoints.findById(id);
+  const doc = await pointsModel.findById(id);
   doc.points = points;
   await doc.save();
 }
@@ -121,7 +121,7 @@ exports.balancePoints = async (req, res) => {
  */
 async function balance() {
   let balancedOutput = {};
-  const grouped = await addPoints.aggregate([
+  const grouped = await pointsModel.aggregate([
     {
       $group: { _id: "$payer", points: { $sum: "$points" } },
     },
