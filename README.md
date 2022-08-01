@@ -51,4 +51,4 @@ Steps:-
 # Help
 
 Refer to comments in project for more clarity about endpoints, routes, schema/model and database connection.
-If you need help Building request using the Postman app interface, learn about it here --> <https://learning.postman.com/docs/sending-requests/requests/>
+If you need help building requests using the Postman application/extension learn about it here --> <https://learning.postman.com/docs/sending-requests/requests/>
