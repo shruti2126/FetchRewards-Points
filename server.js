@@ -1,6 +1,6 @@
 /** @format */
 /**
- * This is the starting point of application sets up PORT listening for server
+ * This is the starting point of application; Sets up PORT listening for server
  * and imports necessary libraries.
  */
 const express = require("express");
