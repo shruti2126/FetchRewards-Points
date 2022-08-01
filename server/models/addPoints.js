@@ -6,6 +6,7 @@ const addPointsSchema = mongoose.Schema({
   payer: {
     type: String,
     required: true,
+    unique: true,
   },
   points: {
     type: Number,
