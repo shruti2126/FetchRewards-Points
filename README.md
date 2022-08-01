@@ -21,7 +21,7 @@ Steps:-
 
 # Usage
 
-1. Download and install Postman either on Desktop or as browser extension. (Other API testing tools can be used, but I will be describing Postman usage here).
+1. Download and install Postman either on Desktop or as browser extension. (Other API testing tools can be used, but I will be describing Postman usage here (See #help for Postman related resources)).
 2. There are three routes you can send requests to and get responses from -->
    -localhost:5000/api/add for adding points (POST request) - This requires a JSON body as request to receive a successful 200 OK JSON response. The request body is of the form :
    { "payer": "DANNON", "points": 1000, "timestamp": "2020-11-02T14:00:00Z" }
