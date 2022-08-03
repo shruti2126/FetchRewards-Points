@@ -53,33 +53,75 @@ exports.spendPoints = async (req, res) => {
  * @param {Array} docs Array of current transactions sorted by timestamp (ascending).
  * @return {Array} An array of Json Objects {"payer" :,  "points": } displaying subtracted amount from payers.
  */
+// async function spend(pointsToSpend, docs) {
+// var afterSpending = {};
+// var i = 0;
+//
+// while (pointsToSpend > 0) {
+// let id = docs[i]._id;
+// var pointsAvailable = docs[i].points;
+// if (docs[i].points >= pointsToSpend) {
+// afterSpending[docs[i].payer] = -1 * pointsToSpend;
+// docs[i].points -= pointsToSpend;
+// await updateDoc(docs[i].points, id);
+// } else {
+// if (afterSpending[docs[i].payer] !== undefined) {
+// afterSpending[docs[i].payer] -= docs[i].points;
+// } else {
+// afterSpending[docs[i].payer] = 0 - docs[i].points;
+// }
+// docs[i].points = 0;
+// await updateDoc(0, id);
+// }
+// pointsToSpend = pointsToSpend - pointsAvailable;
+// i++;
+// }
+// let pointsDeducted = [];
+// for (const [key, value] of Object.entries(afterSpending)) {
+// pointsDeducted.push({ payer: key, points: value });
+// }
+// return pointsDeducted;
+// }
+//
+
 async function spend(pointsToSpend, docs) {
   var afterSpending = {};
   var i = 0;
 
   while (pointsToSpend > 0) {
     let id = docs[i]._id;
+    //Store original points in doc for use later in the function because
+    //value of docs[i].points changes in while loop
     var pointsAvailable = docs[i].points;
+    //If doc points >= pointsToSpend, subtract all points from doc points
     if (docs[i].points >= pointsToSpend) {
       afterSpending[docs[i].payer] = -1 * pointsToSpend;
       docs[i].points -= pointsToSpend;
       await updateDoc(docs[i].points, id);
-    } else {
+    } else if (docs[i].points < pointsToSpend && docs[i].points > 0) {
+      // if doc points < pointsToSpend, all doc points are used up
       if (afterSpending[docs[i].payer] !== undefined) {
         afterSpending[docs[i].payer] -= docs[i].points;
       } else {
-        afterSpending[docs[i].payer] = 0 - docs[i].points;
+        afterSpending[docs[i].payer] = -1 * docs[i].points;
       }
       docs[i].points = 0;
-      await updateDoc(0, id);
+      await updateDoc(docs[i].points, id);
+      console.log("points in doc = ", docs[i].points);
+    } else if (docs[i].points < pointsToSpend && docs[i].points < 0) {
+      docs[i].points = 0;
+      await updateDoc(docs[i].points, id);
     }
+    //updating remaining points for spending
     pointsToSpend = pointsToSpend - pointsAvailable;
     i++;
   }
+
   let pointsDeducted = [];
   for (const [key, value] of Object.entries(afterSpending)) {
     pointsDeducted.push({ payer: key, points: value });
   }
+
   return pointsDeducted;
 }
 
@@ -121,9 +163,13 @@ async function balance() {
   let balancedOutput = {};
   const grouped = await pointsModel.aggregate([
     {
-      $group: { _id: "$payer", points: { $sum: "$points" } },
+      $group: {
+        _id: "$payer",
+        points: { $sum: "$points" },
+      },
     },
   ]);
+
   grouped.forEach((element) => {
     balancedOutput[element._id] = element.points;
   });
