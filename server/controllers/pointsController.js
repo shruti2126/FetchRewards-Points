@@ -41,7 +41,7 @@ exports.spendPoints = async (req, res) => {
     let pointsDeducted = await spend(pointsToSpend, docs);
     res.json(pointsDeducted);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: "in spend points" + error.message });
   }
 };
 
@@ -87,8 +87,7 @@ exports.spendPoints = async (req, res) => {
 async function spend(pointsToSpend, docs) {
   var afterSpending = {};
   var i = 0;
-
-  while (pointsToSpend > 0) {
+  while (pointsToSpend > 0 && i < docs.length) {
     let id = docs[i]._id;
     //Store original points in doc for use later in the function because
     //value of docs[i].points changes in while loop
@@ -117,6 +116,9 @@ async function spend(pointsToSpend, docs) {
     i++;
   }
 
+  if (Object.keys(afterSpending).length == 0) {
+    return [];
+  }
   let pointsDeducted = [];
   for (const [key, value] of Object.entries(afterSpending)) {
     pointsDeducted.push({ payer: key, points: value });
@@ -169,6 +171,16 @@ async function balance() {
       },
     },
   ]);
+
+  // const replaced = await pointsModel.aggregate([
+  // {
+  // $replaceWith: { grouped },
+  // },
+  // ]);
+
+  // replaced.forEach((element) => {
+  // console.log(JSON.stringify(element));
+  // });
 
   grouped.forEach((element) => {
     balancedOutput[element._id] = element.points;

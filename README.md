@@ -45,6 +45,7 @@ Steps:-
        "points": -4700
        }
        ]
+       [NOTE: When there are no points left to spend, this endpoint will return [] empty array]
    - localhost:5000/points/balance for balancing points (GET request) - This doesn't require any body for the request. The respose is also in JSON format and should look something like this :
      {
      "DANNON": 1000,
