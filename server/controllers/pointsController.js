@@ -14,7 +14,6 @@ const pointsModel = require("../models/pointsModel.js");
 exports.addPoints = async (req, res) => {
   try {
     if (req.body.length > 1) {
-      let response = [];
       req.body.forEach(async (element) => {
         const doc = await pointsModel.create({
           payer: element.payer,
