@@ -28,7 +28,6 @@ Steps:-
      "points": 1000,
      "timestamp": "2020-11-02T14:00:00Z"
      }
-     [NOTE: Only one transaction as this one can be sent at a time. Multiple transactions will throw errors]
      [NOTE: The timestamp field needs to be UNIQUE for each transaction to avoid duplicate entries]
      - localhost:5000/points/spend for spending points (GET request) - This also requires a JSON request of the form {"points": 5000}. A successful response will be a JSON that looks like this :
        [

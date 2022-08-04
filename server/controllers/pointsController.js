@@ -24,7 +24,6 @@ exports.addPoints = async (req, res) => {
         doc.save();
       });
       res.send("Transactions added to database");
-      // res.json(response);
     } else {
       const doc = await pointsModel.create({
         payer: req.body.payer,
@@ -35,7 +34,9 @@ exports.addPoints = async (req, res) => {
       res.json(doc);
     }
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res
+      .status(400)
+      .json({ message: "Error in add points -> " + error.message });
     console.log(error.message);
   }
 };
@@ -54,7 +55,9 @@ exports.spendPoints = async (req, res) => {
     let pointsDeducted = await spend(pointsToSpend, docs);
     res.json(pointsDeducted);
   } catch (error) {
-    res.status(400).json({ message: "in spend points" + error.message });
+    res
+      .status(400)
+      .json({ message: "Error in Spend points -> " + error.message });
   }
 };
 
@@ -66,37 +69,6 @@ exports.spendPoints = async (req, res) => {
  * @param {Array} docs Array of current transactions sorted by timestamp (ascending).
  * @return {Array} An array of Json Objects {"payer" :,  "points": } displaying subtracted amount from payers.
  */
-// async function spend(pointsToSpend, docs) {
-// var afterSpending = {};
-// var i = 0;
-//
-// while (pointsToSpend > 0) {
-// let id = docs[i]._id;
-// var pointsAvailable = docs[i].points;
-// if (docs[i].points >= pointsToSpend) {
-// afterSpending[docs[i].payer] = -1 * pointsToSpend;
-// docs[i].points -= pointsToSpend;
-// await updateDoc(docs[i].points, id);
-// } else {
-// if (afterSpending[docs[i].payer] !== undefined) {
-// afterSpending[docs[i].payer] -= docs[i].points;
-// } else {
-// afterSpending[docs[i].payer] = 0 - docs[i].points;
-// }
-// docs[i].points = 0;
-// await updateDoc(0, id);
-// }
-// pointsToSpend = pointsToSpend - pointsAvailable;
-// i++;
-// }
-// let pointsDeducted = [];
-// for (const [key, value] of Object.entries(afterSpending)) {
-// pointsDeducted.push({ payer: key, points: value });
-// }
-// return pointsDeducted;
-// }
-//
-
 async function spend(pointsToSpend, docs) {
   var afterSpending = {};
   var i = 0;
@@ -159,7 +131,9 @@ exports.balancePoints = async (req, res) => {
     var grouped = await balance();
     res.json(grouped);
   } catch (error) {
-    res.status(400).json({ message: error });
+    res
+      .status(400)
+      .json({ message: "Error in balance points -> " + error.message });
     console.log(error.message);
   }
 };
@@ -180,17 +154,6 @@ async function balance() {
       },
     },
   ]);
-
-  // const replaced = await pointsModel.aggregate([
-  // {
-  // $replaceWith: { grouped },
-  // },
-  // ]);
-
-  // replaced.forEach((element) => {
-  // console.log(JSON.stringify(element));
-  // });
-
   grouped.forEach((element) => {
     balancedOutput[element._id] = element.points;
   });
