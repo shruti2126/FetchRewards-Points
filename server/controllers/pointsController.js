@@ -13,14 +13,27 @@ const pointsModel = require("../models/pointsModel.js");
  */
 exports.addPoints = async (req, res) => {
   try {
-    const doc = await pointsModel.create({
-      payer: req.body.payer,
-      points: req.body.points,
-      timestamp: req.body.timestamp,
-    });
-    doc.save();
-    res.json(doc);
-    //}
+    if (req.body.length > 1) {
+      let response = [];
+      req.body.forEach(async (element) => {
+        const doc = await pointsModel.create({
+          payer: element.payer,
+          points: element.points,
+          timestamp: element.timestamp,
+        });
+        doc.save();
+      });
+      res.send("Transactions added to database");
+      // res.json(response);
+    } else {
+      const doc = await pointsModel.create({
+        payer: req.body.payer,
+        points: req.body.points,
+        timestamp: req.body.timestamp,
+      });
+      doc.save();
+      res.json(doc);
+    }
   } catch (error) {
     res.status(400).json({ message: error.message });
     console.log(error.message);
@@ -96,8 +109,7 @@ async function spend(pointsToSpend, docs) {
     if (docs[i].points >= pointsToSpend) {
       afterSpending[docs[i].payer] = -1 * pointsToSpend;
       docs[i].points -= pointsToSpend;
-      await updateDoc(docs[i].points, id);
-    } else if (docs[i].points < pointsToSpend && docs[i].points > 0) {
+    } else if (docs[i].points < pointsToSpend) {
       // if doc points < pointsToSpend, all doc points are used up
       if (afterSpending[docs[i].payer] !== undefined) {
         afterSpending[docs[i].payer] -= docs[i].points;
@@ -105,12 +117,9 @@ async function spend(pointsToSpend, docs) {
         afterSpending[docs[i].payer] = -1 * docs[i].points;
       }
       docs[i].points = 0;
-      await updateDoc(docs[i].points, id);
       console.log("points in doc = ", docs[i].points);
-    } else if (docs[i].points < pointsToSpend && docs[i].points < 0) {
-      docs[i].points = 0;
-      await updateDoc(docs[i].points, id);
     }
+    await updateDoc(docs[i].points, id);
     //updating remaining points for spending
     pointsToSpend = pointsToSpend - pointsAvailable;
     i++;
